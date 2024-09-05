@@ -176,9 +176,20 @@ return {
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
         --
-        -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
-        --
+        tsserver = {
+          -- Disable formatting for tsserver
+          on_init = function(client)
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = false
+          end,
+        },
+        -- Add ESLint configuration
+        eslint = {
+          settings = {
+            -- Specify the working directory for ESLint
+            workingDirectory = { mode = 'auto' },
+          },
+        },
 
         lua_ls = {
           -- cmd = {...},
@@ -209,6 +220,9 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'eslint',
+        'tsserver',
+        'volar',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

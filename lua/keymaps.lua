@@ -45,4 +45,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, { desc = 'Toggle undotree' })
+
+vim.api.nvim_set_keymap('n', '<C-.>', ':bnext<CR>', { desc = 'Switch to next buffer', noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-,>', ':bprev<CR>', { desc = 'Switch to previous buffer', noremap = true, silent = true })
+
 -- vim: ts=2 sts=2 sw=2 et
