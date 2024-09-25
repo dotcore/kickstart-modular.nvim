@@ -177,8 +177,8 @@ return {
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         biome = {},
-        tsserver = {
-          -- Disable formatting for tsserver
+        ts_ls = {
+          -- Disable formatting for ts_ls
           on_init = function(client)
             client.server_capabilities.documentFormattingProvider = false
             client.server_capabilities.documentRangeFormattingProvider = false
@@ -191,7 +191,6 @@ return {
             workingDirectory = { mode = 'auto' },
           },
         },
-
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
@@ -222,7 +221,7 @@ return {
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'eslint',
-        'tsserver',
+        'ts_ls',
         'volar',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -233,10 +232,8 @@ return {
             local server = servers[server_name] or {}
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for tsserver)
-            if server_name == 'tsserver' then
-              server_name = 'ts_ls'
-            end
+
+            -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
           end,
